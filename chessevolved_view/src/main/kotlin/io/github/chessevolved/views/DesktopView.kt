@@ -9,66 +9,30 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
 
 class DesktopView : IView{
-    private val boardCamera: OrthographicCamera = OrthographicCamera()
-    private val boardViewport: FitViewport
+    private val camera: OrthographicCamera = OrthographicCamera()
+    private val viewport: FitViewport = FitViewport(10f, 10f)
     private val batch: SpriteBatch = SpriteBatch()
-    private val shapeRenderer: ShapeRenderer = ShapeRenderer()
 
-    init {
-        val scale: Int = gamePresenter.boardSize
-        val size: Float = 32f * scale
 
-        boardCamera.setToOrtho(false, size, size)
-
-        boardViewport = FitViewport(size, size, boardCamera)
-        boardViewport.setScreenBounds(
-            ((Gdx.graphics.width - size * 2f) / 2f).toInt(),
-            ((Gdx.graphics.height - size * 2f) / 2f).toInt(),
-            size.toInt() * 2,
-            size.toInt() * 2)
-
-        // 0.0, 0.0, 0.0 is the viewports origin (so it's middle)
-        // Moving to the left is plus, and moving to the right is minus
-        boardCamera.position.set(0.0f + size / 2f, 0.0f + size / 2f, 0.0f)
-        boardCamera.update()
+    override fun beginBatch() {
+        viewport.apply()
+        batch.projectionMatrix = viewport.camera.combined
+        batch.begin()
     }
 
-    override fun render() {
-        boardViewport.apply()
-        batch.projectionMatrix = boardViewport.camera.combined
-        batch.begin()
-
-        // Render board first
-        renderBoard()
-        renderPieces()
-
+    override fun endBatch() {
         batch.end()
     }
 
-    private fun renderBoard() {
-        //TODO:  Have to consider if white is first in the left corner or not.
-
-        for (i in 0..gamePresenter.boardSize-1) {
-            for (j in 0..gamePresenter.boardSize-1) {
-                // Simple positioning so far.
-                if ((i + j) % 2 == 0) {
-                    boardSprites[0].setPosition(j * 32f, i * 32f)
-                    boardSprites[0].draw(batch)
-                } else {
-                    boardSprites[1].setPosition(j * 32f, i * 32f)
-                    boardSprites[1].draw(batch)
-                }
-            }
-        }
+    override fun getCamera(): OrthographicCamera {
+        return camera
     }
 
-    private fun renderPieces() {
-        for (sprite: Sprite in pieceSprites) {
-            sprite.draw(batch)
-        }
+    override fun getViewport(): FitViewport {
+        return viewport
     }
 
-    override fun dispose() {
-        TODO("Not yet implemented")
+    override fun render(sprite: Sprite) {
+        sprite.draw(batch)
     }
 }
