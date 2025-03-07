@@ -6,4 +6,5 @@ dependencies {
   api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
 
   implementation project(":chessevolved_model")
+  implementation project(":chessevolved_view")
 }

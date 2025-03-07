@@ -7,16 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
-import io.github.chessevolved.presenters.GamePresenter
 
 class DesktopView : IView{
     private val boardCamera: OrthographicCamera = OrthographicCamera()
-    private lateinit var boardViewport: FitViewport
+    private val boardViewport: FitViewport
     private val batch: SpriteBatch = SpriteBatch()
-    private val gamePresenter: GamePresenter = GamePresenter()
-    private val pieceSprites: List<Sprite> = gamePresenter.getPieceSprites()
-    // First is black, second is white
-    private val boardSprites: List<Sprite> = gamePresenter.getBoardSprites()
     private val shapeRenderer: ShapeRenderer = ShapeRenderer()
 
     init {
