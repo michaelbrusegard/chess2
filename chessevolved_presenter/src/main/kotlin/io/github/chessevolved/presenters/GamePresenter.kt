@@ -1,9 +1,7 @@
 package io.github.chessevolved.presenters
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Sprite
-import com.badlogic.gdx.utils.viewport.FitViewport
 import io.github.chessevolved.components.BoardSizeComponent
 import io.github.chessevolved.components.ChessBoardSpriteComponent
 import io.github.chessevolved.components.PositionComponent
