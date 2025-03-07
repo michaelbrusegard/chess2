@@ -1,18 +1,22 @@
 package io.github.chessevolved.views
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
 
 class DesktopView : IView{
     private val camera: OrthographicCamera = OrthographicCamera()
-    private val viewport: FitViewport = FitViewport(10f, 10f)
+    private var viewport: FitViewport
     private val batch: SpriteBatch = SpriteBatch()
 
+    init {
+        camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+        camera.update()
+        viewport = FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat(), camera)
+        viewport.setScreenBounds(0, 0, Gdx.graphics.width, Gdx.graphics.height)
+    }
 
     override fun beginBatch() {
         viewport.apply()
@@ -22,14 +26,6 @@ class DesktopView : IView{
 
     override fun endBatch() {
         batch.end()
-    }
-
-    override fun getCamera(): OrthographicCamera {
-        return camera
-    }
-
-    override fun getViewport(): FitViewport {
-        return viewport
     }
 
     override fun render(sprite: Sprite) {
